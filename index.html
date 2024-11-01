@@ -4,20 +4,70 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kursorni Ta'qib qiladigan Ip</title>
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #f0f0f0;
+      cursor: none; /* Asl kursorni yashirish */
+    }
+
+    .segment {
+      position: absolute;
+    }
+  </style>
 </head>
 <body>
-  <div class="rope">
-    <div class="segment"></div>
-    <div class="segment"></div>
-    <div class="segment"></div>
-    <div class="segment"></div>
-    <div class="segment"></div>
-  </div>
+  <!-- Sharik segmentlari -->
+  <div class="segment"><img width="24" src="./img/cursor.png" alt=""></div>
+  <div class="segment"><img width="24" src="./img/cursor.png" alt=""></div>
+  <div class="segment"><img width="24" src="./img/cursor.png" alt=""></div>
+  <div class="segment"><img width="24" src="./img/cursor.png" alt=""></div>
+  <div class="segment"><img width="24" src="./img/cursor.png" alt=""></div>
 
-  <script src="script.js"></script>
+  <script>
+    // Segmentlarni olish
+    const segments = document.querySelectorAll('.segment');
+    const numSegments = segments.length;
+    let mouseX = 0, mouseY = 0;
+    let delay = 0.2;
+
+    // Kursor harakatini kuzatish
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    // Segmentlarni kursorni kuzatib harakatlantirish
+    function animateRope() {
+      let x = mouseX, y = mouseY;
+
+      segments.forEach((segment, index) => {
+        const segmentX = parseFloat(segment.style.left) || 0;
+        const segmentY = parseFloat(segment.style.top) || 0;
+
+        const dx = x - segmentX;
+        const dy = y - segmentY;
+
+        // Segmentning yangi joyini hisoblash va qo'llash
+        segment.style.left = `${segmentX + dx * delay}px`;
+        segment.style.top = `${segmentY + dy * delay}px`;
+
+        // Keyingi segment uchun joylashuvni yangilash
+        x = segmentX;
+        y = segmentY;
+      });
+
+      requestAnimationFrame(animateRope);
+    }
+
+    animateRope(); // Harakatni boshlash
+  </script>
 </body>
 </html>
+
+
 
 
 
